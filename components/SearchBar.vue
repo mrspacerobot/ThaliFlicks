@@ -30,9 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits } from "vue";
-import { ref } from "vue";
-
 const emit = defineEmits(["searchMovies"]);
 const inputField = ref("");
 

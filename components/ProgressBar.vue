@@ -17,7 +17,5 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from "vue";
-
 defineProps<{ downloadProgress: number }>();
 </script>

@@ -1,38 +1,29 @@
 import WebTorrent from "webtorrent-hybrid";
 import { EventEmitter } from "events";
+import torrentConfig from "~/torrentConfig";
 
 const client = new WebTorrent();
 const progressEmitter = new EventEmitter();
+const downloadPath = torrentConfig.downloadPath;
 
 function downloadTorrent(magnetURI: string) {
-  client.add(magnetURI, { path: "downloads" }, (torrent) => {
-    console.log("Torrent downloading...");
-    torrent.on("download", (bytes) => {
-      // Calculate download progress percentage
-      const percent = (torrent.progress * 100).toFixed(2);
-      console.log(`Downloaded ${bytes} bytes (${percent}% downloaded)`);
+  function progressHandler(bytes: number) {
+    const torrent = this; // "this" refers to the torrent object
+    const percent = (torrent.progress * 100).toFixed(2);
+    progressEmitter.emit("progress", percent);
+  }
 
-      // Emit progress event with the percentage
-      progressEmitter.emit("progress", percent);
-    });
+  client.add(magnetURI, { path: downloadPath }, (torrent) => {
+    torrent.on("download", progressHandler); // Add progressHandler as listener
 
     torrent.on("done", () => {
-      console.log("Torrent download finished");
-      // Emit completion event
       progressEmitter.emit("complete");
-      progressEmitter.removeListener("progress", progressHandler);
+      torrent.removeListener("download", progressHandler); // Remove progressHandler
     });
 
     torrent.on("error", (err) => {
-      console.error("Torrent download error:", err);
-      // Emit error event
       progressEmitter.emit("error", err);
     });
-
-    const progressHandler = (percent: number) => {
-      // Handle progress updates
-      console.log(`Progress: ${percent}%`);
-    };
   });
 }
 

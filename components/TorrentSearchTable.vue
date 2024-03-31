@@ -38,7 +38,6 @@
 
 <script setup lang="ts">
 import type { Listing } from "@spacepumpkin/torrent-galaxy-api/dist/types";
-import { ref, watch } from "vue";
 
 const downloadProgress = ref<number>(0);
 const downloadInProgress = ref(false);
@@ -59,7 +58,6 @@ watch(downloadInProgress, (value) => {
     const interval = setInterval(() => {
       $fetch<number>("/api/torrentDownloadStatus").then((response) => {
         downloadProgress.value = response;
-        console.log(response);
         if (response === 100) {
           downloadInProgress.value = false;
           downloadProgress.value = 0;

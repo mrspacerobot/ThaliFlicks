@@ -12,7 +12,6 @@ export interface TorrentSearchEvent {
 export default defineEventHandler(
   async (event: Promise<TorrentSearchEvent>): Promise<Listing[]> => {
     const torrentSearchEvent = await readBody<TorrentSearchEvent>(event);
-    console.log(torrentSearchEvent.torrent);
     setAntiCaptchaKey("de963dc0173470d42a13bd969af5772e");
     const searchOps: SearchOpts = {
       term: torrentSearchEvent.torrent,
