@@ -1,3 +1,4 @@
+![Thalis Flicks Logo](~/assets/thaliWatchingMovies.jpg)
 # Thalis Flicks
 
 Can't be bothered to teach your GF how to torrent Movies, here is an App for you!
