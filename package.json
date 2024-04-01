@@ -9,11 +9,12 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint --ext .ts,.js,.vue .",
-    "format": "prettier --write \"**/*.{ts,js,vue}\""
+    "format": "prettier --write \"**/*.{ts,js,vue}\"",
+    "test": "vitest"
   },
   "dependencies": {
-    "@spacepumpkin/torrent-galaxy-api": "^1.240302.1",
     "nuxt": "^3.11.1",
+    "piratebay-scraper": "^4.0.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "webtorrent-hybrid": "^5.0.2"

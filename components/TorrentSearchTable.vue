@@ -1,29 +1,35 @@
 <template>
-  <div class="flex justify-center w-screen py-2">
-    <div class="overflow-x-auto">
-      <table class="table-auto">
+  <div class="flex justify-center py-2">
+    <div class="overflow-x-auto w-full">
+      <table class="table-fixed w-full">
         <thead>
           <tr>
-            <th class="px-4 py-2">Name</th>
-            <th class="px-4 py-2">Upload Date</th>
-            <th class="px-4 py-2">Seeders</th>
-            <th class="px-4 py-2">Leechers</th>
-            <th class="px-4 py-2">Magnet</th>
+            <th class="px-4 py-2 w-1/4 sm:w-auto text-center">Name</th>
+            <th class="px-4 py-2 text-center">Upload Date</th>
+            <th class="px-4 py-2 text-center">Seeders</th>
+            <th class="px-4 py-2 text-center">Leechers</th>
+            <th class="px-4 py-2 text-center">Size</th>
+            <th class="px-4 py-2 text-center">Magnet</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="torrent in torrentSearchResult" :key="torrent.href">
-            <td class="border px-4 py-2">{{ torrent.title }}</td>
-            <td class="border px-4 py-2">{{ torrent.uploadDate }}</td>
-            <td class="border px-4 py-2">{{ torrent.seeders }}</td>
-            <td class="border px-4 py-2">{{ torrent.leachers }}</td>
-            <td class="border px-4 py-2">
+          <tr v-for="torrent in torrentSearchResult" :key="torrent.link">
+            <td class="border px-4 py-2 break-all sm:break-normal text-center">
+              {{ torrent.title }}
+            </td>
+            <td class="border px-4 py-2 break-all sm:break-normal text-center">
+              {{ torrent.uploaded }}
+            </td>
+            <td class="border px-4 py-2 text-center">{{ torrent.seeders }}</td>
+            <td class="border px-4 py-2 text-center">{{ torrent.leechers }}</td>
+            <td class="border px-4 py-2 text-center">{{ torrent.size }}</td>
+            <td class="border px-4 py-2 text-center">
               <button
                 :disabled="downloadInProgress"
                 @click="handleDownloadClick(torrent)"
-                class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+                class="bg-blue-500 hover:bg-blue-600 py-2 px-4 rounded-lg"
               >
-                Download
+                <DownloadIcon />
               </button>
             </td>
           </tr>
@@ -37,19 +43,19 @@
 </template>
 
 <script setup lang="ts">
-import type { Listing } from "@spacepumpkin/torrent-galaxy-api/dist/types";
+import type { TPBResult } from "piratebay-scraper/interfaces";
 
 const downloadProgress = ref<number>(0);
 const downloadInProgress = ref(false);
 
-defineProps<{ torrentSearchResult: Listing[] }>();
+defineProps<{ torrentSearchResult: TPBResult[] }>();
 
-const handleDownloadClick = (torrent: Listing) => {
+const handleDownloadClick = (torrent: TPBResult) => {
   downloadInProgress.value = true;
 
   $fetch("/api/torrentDownload", {
     method: "post",
-    body: { magnetURI: torrent.magnet },
+    body: { magnetURI: torrent.link },
   });
 };
 
@@ -58,7 +64,8 @@ watch(downloadInProgress, (value) => {
     const interval = setInterval(() => {
       $fetch<number>("/api/torrentDownloadStatus").then((response) => {
         downloadProgress.value = response;
-        if (response === 100) {
+        console.log(response);
+        if (Math.abs(response - 100) < 0.01) {
           downloadInProgress.value = false;
           downloadProgress.value = 0;
           clearInterval(interval);

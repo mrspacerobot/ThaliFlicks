@@ -1,6 +1,6 @@
-# Nuxt 3 Minimal Starter
+# Thalis Flicks
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Can't be bothered to teach your GF how to torrent Movies, here is an App for you!
 
 ## Setup
 
@@ -19,6 +19,8 @@ yarn install
 # bun
 bun install
 ```
+
+Adapt Download Directory config in `torrentConfig.ts` to specify the desired download directory
 
 ## Development Server
 

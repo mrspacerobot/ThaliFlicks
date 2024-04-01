@@ -8,17 +8,17 @@ const downloadPath = torrentConfig.downloadPath;
 
 function downloadTorrent(magnetURI: string) {
   function progressHandler(bytes: number) {
-    const torrent = this; // "this" refers to the torrent object
+    const torrent = this;
     const percent = (torrent.progress * 100).toFixed(2);
     progressEmitter.emit("progress", percent);
   }
 
   client.add(magnetURI, { path: downloadPath }, (torrent) => {
-    torrent.on("download", progressHandler); // Add progressHandler as listener
+    torrent.on("download", progressHandler);
 
     torrent.on("done", () => {
       progressEmitter.emit("complete");
-      torrent.removeListener("download", progressHandler); // Remove progressHandler
+      torrent.removeListener("download", progressHandler);
     });
 
     torrent.on("error", (err) => {

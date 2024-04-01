@@ -1,9 +1,9 @@
-import type { Listing } from "@spacepumpkin/torrent-galaxy-api/dist/types";
+import type { TPBResult } from "piratebay-scraper/interfaces";
 
 export function filterTorrentsByMovieTitle(
   movieTitle: string,
-  torrents: Listing[],
-): Listing[] {
+  torrents: TPBResult[],
+): TPBResult[] {
   return torrents.filter((torrent) =>
     isMovieTitleInString(movieTitle, torrent.title!),
   );
