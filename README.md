@@ -1,6 +1,5 @@
-![Alt text](relative%20assets/thaliWatchingMovies.jpg?raw=true "Title")
+![Alt text](assets/thaliWatchingMovies.jpg?raw=true "Title")
 # Thalis Flicks
-
 Can't be bothered to teach your GF how to torrent Movies, here is an App for you!
 
 ## Setup
