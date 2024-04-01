@@ -13,9 +13,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="torrent in torrentSearchResult" :key="torrent.link">
+          <tr v-for="torrent in formattedTorrentTitles" :key="torrent.link">
             <td class="border px-4 py-2 break-all sm:break-normal text-center">
-              {{ torrent.title }}
+              <div class="max-w-xs sm:max-w-none">{{ torrent.title }}</div>
             </td>
             <td class="border px-4 py-2 break-all sm:break-normal text-center">
               {{ torrent.uploaded }}
@@ -48,7 +48,7 @@ import type { TPBResult } from "piratebay-scraper/interfaces";
 const downloadProgress = ref<number>(0);
 const downloadInProgress = ref(false);
 
-defineProps<{ torrentSearchResult: TPBResult[] }>();
+const props = defineProps<{ torrentSearchResult: TPBResult[] }>();
 
 const handleDownloadClick = (torrent: TPBResult) => {
   downloadInProgress.value = true;
@@ -58,6 +58,15 @@ const handleDownloadClick = (torrent: TPBResult) => {
     body: { magnetURI: torrent.link },
   });
 };
+
+const formattedTorrentTitles = computed(() => {
+  return props.torrentSearchResult.map((torrent) => {
+    return {
+      ...torrent,
+      title: torrent.title.replace(/\./g, " "),
+    };
+  });
+});
 
 watch(downloadInProgress, (value) => {
   if (value) {
