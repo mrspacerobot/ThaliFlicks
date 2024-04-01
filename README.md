@@ -1,4 +1,4 @@
-<img src="~/assets/thaliWatchingMovies.jpg" alt="Thalis Flicks Logo">
+![Alt text](relative%20assets/thaliWatchingMovies.jpg?raw=true "Title")
 # Thalis Flicks
 
 Can't be bothered to teach your GF how to torrent Movies, here is an App for you!
