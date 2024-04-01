@@ -1,4 +1,6 @@
-<img src="assets/thaliWatchingMovies.jpg?raw=true" alt="Thali Watching Movies" width="300">
+<div style="text-align: center;">
+    <img src="assets/thaliWatchingMovies.jpg?raw=true" alt="Thali Watching Movies" width="300">
+</div>
 
 # Thalis Flicks
 Can't be bothered to teach your GF how to torrent Movies, here is an App for you!
